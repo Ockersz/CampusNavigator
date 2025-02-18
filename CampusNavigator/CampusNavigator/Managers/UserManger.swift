@@ -8,7 +8,7 @@
 import Foundation
 
 struct User: Codable {
-    var id: UUID
+    var id: Int
     var fullName: String
     var email: String
     var password: String
@@ -20,26 +20,35 @@ class UserManager {
     private let fileName: String
 
     init() {
-        self.fileName = "/Data/user.json"
-        loadUsers()
-    }
-
-    private func getFilePath() -> URL {
-        let fileManager = FileManager.default
-        let currentPath = fileManager.currentDirectoryPath
-        let filePath = URL(fileURLWithPath: currentPath).appendingPathComponent(fileName)
-        return filePath
-    }
-
-    private func loadUsers() {
-        let filePath = getFilePath()
-        guard let data = try? Data(contentsOf: filePath) else { return }
-        let decoder = JSONDecoder()
-        if let loadedUsers = try? decoder.decode([User].self, from: data) {
-            self.users = loadedUsers
+            self.fileName = "user.json"
+            loadUsers()
         }
-    }
 
+        private func getFilePath() -> URL {
+            let filePath = URL(filePath: "/Users/shaheinockersz/dev/CampusNavigator/CampusNavigator/CampusNavigator/Data/user.json")
+            return filePath
+        }
+
+        private func loadUsers() {
+            let filePath = getFilePath()
+
+            let fileManager = FileManager.default
+            if !fileManager.fileExists(atPath: filePath.path) {
+                return
+            }
+
+            guard let data = try? Data(contentsOf: filePath) else {
+                return
+            }
+         
+            let decoder = JSONDecoder()
+            if let loadedUsers = try? decoder.decode([User].self, from: data) {
+                self.users = loadedUsers
+            } else {
+                print("Failed to decode users from data")
+            }
+        }
+    
     private func saveUsers() {
         let filePath = getFilePath()
         let encoder = JSONEncoder()
@@ -47,33 +56,36 @@ class UserManager {
             try? data.write(to: filePath)
         }
     }
-
-    // Create
-    func addUser(_ user: User) {
-        users.append(user)
-        saveUsers()
-    }
-
-    // Read
-    func getUser(byId id: UUID) -> User? {
-        return users.first { $0.id == id }
-    }
-
-    func getAllUsers() -> [User] {
-        return users
-    }
-
-    // Update
-    func updateUser(_ updatedUser: User) {
-        if let index = users.firstIndex(where: { $0.id == updatedUser.id }) {
-            users[index] = updatedUser
-            saveUsers()
+    
+    func loginUser(email: String, password: String) -> (Bool, String) {
+        
+        let securityUtil = SecurityUtil()
+        
+        for user in users {
+            if user.email == email && (securityUtil.compare(hash: user.password, input: password)){
+                return (true, user.userType)
+            }
         }
+        return (false, "")
     }
+    
+    func registerUser(fullName: String, email: String, password: String, userType: String) -> (Bool, String) {
+        let maxId = users.max(by: { $0.id < $1.id })?.id ?? 0
+        let newId = maxId + 1
+        let existingUser = users.first { $0.email == email }
 
-    // Delete
-    func deleteUser(byId id: UUID) {
-        users.removeAll { $0.id == id }
+        guard existingUser == nil else {
+            return (false, "User with this email already exists")
+        }
+        
+        let securityUtil = SecurityUtil()
+        
+        let hashedPW = securityUtil.encrypt(input: password)
+
+        let newUser = User(id: newId, fullName: fullName, email: email, password: hashedPW!, userType: userType)
+        users.append(newUser)
+
         saveUsers()
+        return (true, "Successfully registered!")
     }
 }
