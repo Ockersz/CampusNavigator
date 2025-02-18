@@ -9,6 +9,7 @@ import SwiftUICore
 import SwiftUI
 
 struct RegisterView: View {
+    @State private var name: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
     
@@ -17,6 +18,26 @@ struct RegisterView: View {
             Text("Sign Up")
                 .font(.largeTitle)
                 .bold()
+            
+            TextField("Name", text: $name)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+
+            SecureField("Password", text: $password)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
+            SecureField("Confirm Password", text: $password)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            Button("Login") {
+                print("Logged In")
+            }
+            .padding()
+//            .frame(maxWidth: .infinity, maxHeight: 44)
+            .background(Color.yellow)
+            .foregroundColor(.white)
+            .cornerRadius(8)
         }
     }
 }
