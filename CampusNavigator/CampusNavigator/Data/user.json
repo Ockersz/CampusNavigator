@@ -1,0 +1,9 @@
+[
+    {
+        "id": 1,
+        "fullName": "Shahein Ockersz",
+        "email": "admin@email.com",
+        "password": "1234",
+        "userType": "student"
+    }
+]
