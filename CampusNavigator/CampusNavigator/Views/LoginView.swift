@@ -9,7 +9,6 @@ import SwiftUICore
 import SwiftUI
 
 struct LoginView: View {
-//    @Binding var isLoggedIn: Bool
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showingAlert = false
@@ -19,8 +18,10 @@ struct LoginView: View {
     var body: some View {
         VStack {
             Text("Login")
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.largeTitle)
                 .bold()
+                .padding()
 
             TextField("Email", text: $email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -44,7 +45,8 @@ struct LoginView: View {
                 authenticateUser()
             }
             .padding()
-            .background(Color.blue)
+            .frame(maxWidth: .infinity, maxHeight: 44)
+            .background(Color.yellow)
             .foregroundColor(.white)
             .cornerRadius(8)
             .alert(isPresented: $showingAlert) {
