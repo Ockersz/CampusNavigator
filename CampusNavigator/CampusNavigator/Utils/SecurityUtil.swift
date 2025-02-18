@@ -16,7 +16,7 @@ class SecurityUtil {
     }
 
     private func getFilePath() -> URL {
-        return URL(filePath: "/Users/shaheinockersz/dev/CampusNavigator/CampusNavigator/CampusNavigator/Data/hashKey.json")
+        return URL(filePath: "/Users/shaheinockersz/dev/CampusNavigator/CampusNavigator/CampusNavigator/Data/keys.json")
     }
 
     private func loadKey() {
