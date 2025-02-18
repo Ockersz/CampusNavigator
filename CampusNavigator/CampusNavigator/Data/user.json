@@ -1,9 +1,23 @@
 [
     {
-        "id": 1,
-        "fullName": "Shahein Ockersz",
-        "email": "admin@email.com",
-        "password": "1234",
-        "userType": "student"
+        "email":"admin@email.com",
+        "userType":"student",
+        "fullName":"Shahein Ockersz",
+        "password":"1234",
+        "id":1
+    },
+    {
+        "userType":"student",
+        "password":"4321",
+        "id":2,
+        "email":"noel@gmail.com",
+        "fullName":"Shahein"
+    },
+    {
+        "userType":"student",
+        "fullName":"suresh",
+        "email":"suresh@gmail.com",
+        "id":3,
+        "password":"f850aeed1ced1d14a8785e2fcb8f0963d3f214f3cdc3440cd2fcaec42568400b"
     }
 ]

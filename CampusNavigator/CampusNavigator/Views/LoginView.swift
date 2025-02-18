@@ -57,7 +57,7 @@ struct LoginView: View {
     }
 
     private func authenticateUser() {
-        let userManager = UserManager.init()
+        let userManager = UserManager()
         
         let (isCorrect, userType) = userManager.loginUser(email: email, password: password)
         if isCorrect {

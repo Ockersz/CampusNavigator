@@ -59,12 +59,16 @@ class UserManager {
     
     func loginUser(email: String, password: String) -> (Bool, String) {
         
-        let securityUtil = SecurityUtil()
+       let securityUtil = SecurityUtil()
         
         for user in users {
-            if user.email == email && (securityUtil.compare(hash: user.password, input: password)){
+            
+            if user.email == email && securityUtil.compare(hash: user.password, input: password){
                 return (true, user.userType)
             }
+//            if user.email == email && user.password == password{
+//                return (true, user.userType)
+//            }
         }
         return (false, "")
     }
@@ -79,10 +83,10 @@ class UserManager {
         }
         
         let securityUtil = SecurityUtil()
-        
-        let hashedPW = securityUtil.encrypt(input: password)
 
-        let newUser = User(id: newId, fullName: fullName, email: email, password: hashedPW!, userType: userType)
+        let hashedPW = securityUtil.hash(input: password)
+
+        let newUser = User(id: newId, fullName: fullName, email: email, password: hashedPW, userType: userType)
         users.append(newUser)
 
         saveUsers()
