@@ -1,0 +1,55 @@
+# Xcode
+DerivedData/
+*.xcworkspace/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# CocoaPods
+Pods/
+*.lock
+
+# Carthage
+Carthage/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+
+# Archives
+*.xcarchive
+
+# Swift Playgrounds
+playground.xcworkspace/
+
+# User-Specific Xcode Settings
+*.xcuserdatad/
+
+# Logs
+*.log
+
+# Temporary Files
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Environment & Secrets
+.env
+*.keychain
+
+# Generated Files
+*.DS_Store
+*.plist
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.moved-aside
+
