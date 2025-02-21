@@ -43,12 +43,12 @@ struct RegisterView: View {
             Button("Sign up") {
                 registerUser()
             }
-            .padding(.top, 20)
             .font(.system(size: 18, weight: .semibold))
             .frame(maxWidth: .infinity, maxHeight: 44)
             .background(Color.accentColor)
             .foregroundColor(.black)
             .cornerRadius(8)
+            .padding(.top, 20)
             
             
         HStack {
@@ -65,9 +65,8 @@ struct RegisterView: View {
             Text("By Signing up, you are creating a Patron account and agree to Patron’s Terms and Privacy Policy.")
                 .font(.footnote)
                 .multilineTextAlignment(.center)
-            
-            
         }
+        .padding(.horizontal, 32)
         .alert(isPresented: $showingAlert) {
             Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
