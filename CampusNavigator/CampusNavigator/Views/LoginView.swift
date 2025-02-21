@@ -17,19 +17,31 @@ struct LoginView: View {
 
     var body: some View {
         VStack {
+            Image ("Image")
             Text("Login")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.largeTitle)
                 .bold()
-                .padding()
 
             TextField("Email", text: $email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .padding(.top, 15)
 
             SecureField("Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .padding(.vertical, 15)
+            
+            Button("Continue") {
+                authenticateUser()
+            }
+            .font(.system(size: 18, weight: .semibold))
+            .frame(maxWidth: .infinity, maxHeight: 44)
+            .background(Color.accentColor)
+            .foregroundColor(.black)
+            .cornerRadius(8)
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            }
             
             HStack {
                 Text("New member?")
@@ -39,21 +51,11 @@ struct LoginView: View {
                         .foregroundColor(.blue)
                         .underline()
                 }
+                .padding(.vertical, 15)
             }
-            
-            Button("Login") {
-                authenticateUser()
-            }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: 44)
-            .background(Color.yellow)
-            .foregroundColor(.white)
-            .cornerRadius(8)
-            .alert(isPresented: $showingAlert) {
-                Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-            }
+        
         }
-        .padding()
+        .padding(.horizontal, 32)
     }
 
     private func authenticateUser() {
