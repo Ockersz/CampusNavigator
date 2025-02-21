@@ -18,33 +18,54 @@ struct RegisterView: View {
     
     var body: some View {
         VStack {
+            Image ("Image")
             Text("Sign Up")
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.largeTitle)
                 .bold()
             
             TextField("Name", text: $name)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .padding(.top, 10)
             
             TextField("Email", text: $email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .padding(.top, 10)
 
             SecureField("Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .padding(.top, 10)
             
-            SecureField("Confirm Password", text: $password)
+            SecureField("Confirm password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-            Button("Login") {
+                .padding(.top, 10)
+            
+            Button("Sign up") {
                 registerUser()
             }
-            .padding()
-//            .frame(maxWidth: .infinity, maxHeight: 44)
-            .background(Color.yellow)
-            .foregroundColor(.white)
+            .padding(.top, 20)
+            .font(.system(size: 18, weight: .semibold))
+            .frame(maxWidth: .infinity, maxHeight: 44)
+            .background(Color.accentColor)
+            .foregroundColor(.black)
             .cornerRadius(8)
+            
+            
+        HStack {
+                Text("Already a member?")
+                NavigationLink(destination: RegisterView()) {
+                    Text("Login")
+                        .font(.headline)
+                        .foregroundColor(.blue)
+                        .underline()
+                }
+            }
+            .padding(.vertical, 15)
+            
+            Text("By Signing up, you are creating a Patron account and agree to Patron’s Terms and Privacy Policy.")
+                .font(.footnote)
+                .multilineTextAlignment(.center)
+            
             
         }
         .alert(isPresented: $showingAlert) {
