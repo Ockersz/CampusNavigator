@@ -65,6 +65,7 @@ class UserManager {
             
             if user.email == email && securityUtil.compare(hash: user.password, input: password){
                 UserDefaults.setValue(user.id, forKey: "LoggedUserId")
+                UserDefaults.setValue(user.fullName, forKey: "LoggedUserName")
                 return (true, user.userType)
             }
 //            if user.email == email && user.password == password{
