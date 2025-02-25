@@ -56,8 +56,10 @@ struct LocationCard: View {
         .background(Color(.systemGray6))
         .cornerRadius(12)
         .onAppear {
-            fetchMostFrequentVote()
-            loadLastPoll()
+            Task {
+                await fetchMostFrequentVote()  // ✅ Run asynchronously in a safe Task
+                loadLastPoll()  // ✅ Ensure previous poll data loads
+            }
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Thank You!"), message: Text("Your response has been recorded."), dismissButton: .default(Text("OK")))
@@ -71,13 +73,10 @@ struct LocationCard: View {
         }
     }
     
-    private func fetchMostFrequentVote() {
-        DispatchQueue.global(qos: .userInitiated).async {
-            let vote = PollHelper.loadMostFrequent(location: location, pollManager: pollManager)
-            DispatchQueue.main.async {
-                mostFrequentVote = vote
-            }
-        }
+    @MainActor
+    private func fetchMostFrequentVote() async {
+        let vote = await PollHelper.loadMostFrequent(location: location, pollManager: pollManager)
+        mostFrequentVote = vote
     }
     
     private func submitVote(vote: Int) {
@@ -104,10 +103,12 @@ struct LocationCard: View {
             remainingTime = Int(cooldownEnd.timeIntervalSinceNow)
             
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                if remainingTime > 0 {
-                    remainingTime -= 1
-                } else {
-                    timer?.invalidate()
+                DispatchQueue.main.async {
+                    if remainingTime > 0 {
+                        remainingTime -= 1
+                    } else {
+                        timer?.invalidate()
+                    }
                 }
             }
         }

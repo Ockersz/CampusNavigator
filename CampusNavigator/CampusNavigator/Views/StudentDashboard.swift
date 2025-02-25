@@ -8,18 +8,25 @@
 import SwiftUI
 
 struct StudentDashboardView: View {
-    let username = UserDefaults.standard.string(forKey: "username") ?? "Guest"
+    let username = UserDefaults.standard.value(forKey: "LoggedUserName") ?? "Guest"
     let images = ["Carousel", "Carousel", "Carousel"]
-    let buttonData = [
-        ("Crowd Level", "CrowdLevel", "See crowd levels in areas"),
-        ("Canteen", "Canteen", "Order food from canteen"),
-        ("Navigate Campus", "Navigate", "Find in-campus locations"),
-        ("Campus Surfer", "Surfer", "Play a game to earn rewards")
+    let buttonData: [(String, String, String, AnyView)] = [
+        ("Crowd Level", "CrowdLevel", "See crowd levels in areas", AnyView(CrowdLevels())),
+        ("Canteen", "Canteen", "Order food from canteen", AnyView(LoginView())),
+        ("Navigate Campus", "Navigate", "Find in-campus locations", AnyView(LoginView())),
+        ("Campus Surfer", "Surfer", "Play a game to earn rewards", AnyView(LoginView()))
     ]
-    let buttonRowData = [
-        ("Campus Events", "Events", "View on-campus events"),
-        ("Report Lost Item", "ReportItem", "Find and report lost items"),
-        ("Helpdesk & Guide", "Helpdesk", "Find help and support guides")
+    let buttonRowData: [(String, String, String, AnyView)] = [
+        ("Campus Events", "Events", "View on-campus events",
+         AnyView(AllEvents())),
+        ("Report Lost Item", "ReportItem", "Find and report lost items",
+         AnyView(AllEvents())),
+        (
+            "Helpdesk & Guide",
+            "Helpdesk",
+            "Find help and support guides",
+            AnyView(AllEvents())
+        )
     ]
     
     let columns = [
@@ -88,19 +95,27 @@ struct StudentDashboardView: View {
                     // Grid Layout for Main Features
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(buttonData, id: \.0) { button in
-                            ButtonView(title: button.0, imageName: button.1, description: button.2)
+                            ButtonView(
+                                title: button.0,
+                                imageName: button.1,
+                                description: button.2,
+                                destination: button.3
+                            )
                         }
                     }
                     // Grid Layout for Additional Features
                     LazyVGrid(columns: column2, spacing: 16) {
-                        ForEach(buttonRowData, id: \.0, content: { button in
-                            ButtonView2(title: button.0, imageName: button.1, description: button.2)
-                        })
+                        ForEach(buttonRowData, id: \.0) { button in
+                            ButtonView2(title: button.0, imageName: button.1, description: button.2,
+                                        destination: button.3
+                            )
+                        }
                     }
                 }
                 .padding(20)
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -109,11 +124,10 @@ struct ButtonView: View {
     let title: String
     let imageName: String
     let description: String
+    let destination: AnyView
 
     var body: some View {
-        Button(action: {
-            print("\(title) tapped!")
-        }) {
+        NavigationLink(destination: destination) {
             VStack {
                 Image(imageName)
                 Text(title)
@@ -134,11 +148,10 @@ struct ButtonView2: View {
     let title: String
     let imageName: String
     let description: String
+    let destination: AnyView
 
     var body: some View {
-        Button(action: {
-            print("\(title) tapped!")
-        }) {
+        NavigationLink(destination: destination) {
             VStack {
                 Image(imageName)
                     .resizable()

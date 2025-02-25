@@ -48,7 +48,7 @@ struct RegisterView: View {
                 }
                 .font(.system(size: 18, weight: .semibold))
                 .frame(maxWidth: .infinity, maxHeight: 44)
-                .background(Color.accentColor)
+                .background(Color("Accents"))
                 .foregroundColor(.black)
                 .cornerRadius(8)
                 .padding(.top, 20)

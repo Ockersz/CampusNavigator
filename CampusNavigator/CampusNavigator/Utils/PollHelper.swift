@@ -46,6 +46,7 @@ struct PollHelper {
     }
     
     static func loadMostFrequent(location: Location, pollManager: PollManager) -> Int {
-        return pollManager.getMostFrequentVoteForLocation(locationId: location.id) ?? 0
+        return pollManager
+            .getMostFrequentVoteForLocation(locationId: location.id)
     }
 }
