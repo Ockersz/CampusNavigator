@@ -10,7 +10,7 @@ import SwiftUI
 struct NavigationBarView: View {
     var body: some View {
         TabView {
-            HomeView()
+            StudentDashboardView()
                 .tabItem {
                     Image(systemName: "house")
                     Text("Home")
@@ -18,20 +18,20 @@ struct NavigationBarView: View {
                 
             NotificationsView()
                 .tabItem {
-                    Image(systemName: "bell")
-                    Text("Notifications")
+                    Image(systemName: "person.3.fill")
+                    Text("Crowd Levels")
                 }
                 
+            FoodNBeveragesView()
+                .tabItem {
+                    Image(systemName: "fork.knife")
+                    Text("Canteen")
+                }
+            
             RewardsView()
                 .tabItem {
                     Image(systemName: "gift")
                     Text("Rewards")
-                }
-                
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "gear")
-                    Text("Settings")
                 }
         }
     }
@@ -60,15 +60,6 @@ struct RewardsView: View {
         NavigationView {
             Text("Rewards View")
                 .navigationTitle("Rewards")
-        }
-    }
-}
-
-struct SettingsView: View {
-    var body: some View {
-        NavigationView {
-            Text("Settings View")
-                .navigationTitle("Settings")
         }
     }
 }
