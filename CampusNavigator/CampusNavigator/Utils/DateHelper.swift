@@ -21,5 +21,11 @@ class DateHelper {
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         return dateFormatter.date(from: dateString)
     }
-
+    
+    func stringToDateNormal(dateString: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm a"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        return dateFormatter.date(from: dateString)
+    }
 }
