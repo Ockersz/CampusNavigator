@@ -33,7 +33,9 @@ struct CanteenView: View {
                     .foregroundColor(.gray)
                 
                 VStack(spacing:15){
-                    CanteenCard(title: "Foods & Beverages", subtitle: "Select and Order", icon: "fork.knife")
+                    NavigationLink(destination: FoodNBeveragesView()){
+                        CanteenCard(title: "Foods & Beverages", subtitle: "Select and Order", icon: "fork.knife")
+                    }
                     NavigationLink(destination: OrdersView()){
                         CanteenCard(title: "Your Orders", subtitle: "View your ongoing and past Orders", icon: "list.bullet.clipboard")
                     }
