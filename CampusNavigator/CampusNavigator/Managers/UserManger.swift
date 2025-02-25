@@ -62,8 +62,10 @@ class UserManager {
        let securityUtil = SecurityUtil()
         
         for user in users {
-            if user.email == email && securityUtil.compare(hash: user.password, input: password) {
-                UserDefaults.standard.set(user.id, forKey: "userId") // Correct way to set
+            
+            if user.email == email && securityUtil.compare(hash: user.password, input: password){
+                UserDefaults.setValue(user.id, forKey: "LoggedUserId")
+                UserDefaults.setValue(user.fullName, forKey: "LoggedUserName")
                 return (true, user.userType)
             }
 //            if user.email == email && user.password == password{
