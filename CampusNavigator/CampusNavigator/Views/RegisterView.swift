@@ -45,7 +45,7 @@ struct RegisterView: View {
             }
             .font(.system(size: 18, weight: .semibold))
             .frame(maxWidth: .infinity, maxHeight: 44)
-            .background(Color.accentColor)
+            .background(Color.accents)
             .foregroundColor(.black)
             .cornerRadius(8)
             .padding(.top, 20)
@@ -56,7 +56,7 @@ struct RegisterView: View {
                 NavigationLink(destination: RegisterView()) {
                     Text("Login")
                         .font(.headline)
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color.primarys)
                         .underline()
                 }
             }

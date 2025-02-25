@@ -36,7 +36,7 @@ struct LoginView: View {
             }
             .font(.system(size: 18, weight: .semibold))
             .frame(maxWidth: .infinity, maxHeight: 44)
-            .background(Color.accentColor)
+            .background(Color.accents)
             .foregroundColor(.black)
             .cornerRadius(8)
             .alert(isPresented: $showingAlert) {
@@ -48,7 +48,7 @@ struct LoginView: View {
                 NavigationLink(destination: RegisterView()) {
                     Text("Sign Up")
                         .font(.headline)
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color.primarys)
                         .underline()
                 }
                 .padding(.vertical, 15)
