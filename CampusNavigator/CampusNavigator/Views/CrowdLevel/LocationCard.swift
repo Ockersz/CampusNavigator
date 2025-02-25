@@ -75,7 +75,7 @@ struct LocationCard: View {
     
     @MainActor
     private func fetchMostFrequentVote() async {
-        let vote = await PollHelper.loadMostFrequent(location: location, pollManager: pollManager)
+        let vote = PollHelper.loadMostFrequent(location: location, pollManager: pollManager)
         mostFrequentVote = vote
     }
     

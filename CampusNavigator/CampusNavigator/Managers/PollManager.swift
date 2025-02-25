@@ -38,7 +38,6 @@ class PollManager : ObservableObject{
             DispatchQueue.main.async {
                 self.polls = loadedPolls
             }
-            print("Loaded \(loadedPolls.count) locations")
         } else {
             print("Failed to decode locations from JSON")
         }
