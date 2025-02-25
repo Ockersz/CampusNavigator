@@ -16,13 +16,13 @@ struct NavigationBarView: View {
                     Text("Home")
                 }
                 
-            NotificationsView()
+            CrowdLevels()
                 .tabItem {
                     Image(systemName: "person.3.fill")
                     Text("Crowd Levels")
                 }
                 
-            FoodNBeveragesView()
+            CanteenView()
                 .tabItem {
                     Image(systemName: "fork.knife")
                     Text("Canteen")
@@ -33,24 +33,6 @@ struct NavigationBarView: View {
                     Image(systemName: "gift")
                     Text("Rewards")
                 }
-        }
-    }
-}
-
-struct HomeView: View {
-    var body: some View {
-        NavigationView {
-            Text("Home View")
-                .navigationTitle("Home")
-        }
-    }
-}
-
-struct NotificationsView: View {
-    var body: some View {
-        NavigationView {
-            Text("Notifications View")
-                .navigationTitle("Notifications")
         }
     }
 }
