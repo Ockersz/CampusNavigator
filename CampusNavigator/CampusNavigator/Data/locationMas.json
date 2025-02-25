@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Canteen",
+        "description": "Where you can have your meals",
+        "icon": "canteen"
+    },
+    {
+        "id": 2,
+        "name": "Library",
+        "description": "Expand your knowledge & work in peace",
+        "icon": "library"
+    },
+    {
+        "id": 3,
+        "name": "Programme Office",
+        "description": "For your inquiries about the curriculum",
+        "icon": "programmeOffice"
+    },
+    {
+        "id": 4,
+        "name": "Study Area",
+        "description": "Work and collaborate with others",
+        "icon": "studyArea"
+    },
+    {
+        "id": 5,
+        "name": "Exam Unit",
+        "description": "For any inquiries on exams",
+        "icon": "examUnit"
+    },
+    {
+        "id": 6,
+        "name": "Campus Events Office",
+        "description": "Be a part of the community",
+        "icon": "campusEventsOffice"
+    },
+]
