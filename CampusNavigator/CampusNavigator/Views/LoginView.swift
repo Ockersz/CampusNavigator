@@ -5,6 +5,7 @@
 //  Created by Siluni 025 on 2025-02-18.
 //
 
+import SwiftUICore
 import SwiftUI
 
 struct LoginView: View {
@@ -52,6 +53,7 @@ struct LoginView: View {
                             .foregroundColor(.blue)
                             .underline()
                     }
+                    .padding(.vertical, 15)
                 }
                 
                 NavigationLink(value: isLoggedIn) {
