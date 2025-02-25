@@ -19,6 +19,47 @@ struct RegisterView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
+        VStack {
+            Image ("Image")
+            Text("Sign Up")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.largeTitle)
+                .bold()
+            
+            TextField("Name", text: $name)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.top, 10)
+            
+            TextField("Email", text: $email)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.top, 10)
+
+            SecureField("Password", text: $password)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.top, 10)
+            
+            SecureField("Confirm password", text: $password)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.top, 10)
+            
+            Button("Sign up") {
+                registerUser()
+            }
+            .font(.system(size: 18, weight: .semibold))
+            .frame(maxWidth: .infinity, maxHeight: 44)
+            .background(Color.accents)
+            .foregroundColor(.black)
+            .cornerRadius(8)
+            .padding(.top, 20)
+            
+            
+        HStack {
+                Text("Already a member?")
+                NavigationLink(destination: RegisterView()) {
+                    Text("Login")
+                        .font(.headline)
+                        .foregroundColor(Color.primarys)
+                        .underline()
         NavigationView {
             VStack {
                 Image ("Image")
