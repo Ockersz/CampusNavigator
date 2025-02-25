@@ -14,11 +14,12 @@ struct LoginView: View {
     @State private var showingAlert = false
     @State private var alertTitle = ""
     @State private var alertMessage = ""
-
+    @State private var isLoggedIn = false
+    
     var body: some View {
-        NavigationView{
+        NavigationStack {
             VStack {
-                Image ("Image")
+                Image("Image")
                 Text("Login")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.largeTitle)
@@ -37,7 +38,7 @@ struct LoginView: View {
                 }
                 .font(.system(size: 18, weight: .semibold))
                 .frame(maxWidth: .infinity, maxHeight: 44)
-                .background(Color.accents)
+                .background(Color("Accents"))
                 .foregroundColor(.black)
                 .cornerRadius(8)
                 .alert(isPresented: $showingAlert) {
@@ -55,19 +56,33 @@ struct LoginView: View {
                     .padding(.vertical, 15)
                 }
                 
+                NavigationLink(value: isLoggedIn) {
+                    EmptyView()
+                }
+                .navigationDestination(isPresented: $isLoggedIn) {
+                    StudentDashboardView()
+                }
+                
             }
             .padding(.horizontal, 32)
         }
         .navigationBarBackButtonHidden(true)
     }
+    
     private func authenticateUser() {
-        let userManager = UserManager()
-        
-        let (isCorrect, userType) = userManager.loginUser(email: email, password: password)
-        if isCorrect {
-            alertTitle = "Success"
-            alertMessage = "Login successful!"
+        guard !email.trimmingCharacters(in: .whitespaces).isEmpty,
+              !password.trimmingCharacters(in: .whitespaces).isEmpty else {
+            alertTitle = "Error"
+            alertMessage = "Email and password cannot be empty"
             showingAlert = true
+            return
+        }
+        
+        let userManager = UserManager()
+        let (isCorrect, _) = userManager.loginUser(email: email, password: password)
+        
+        if isCorrect {
+            isLoggedIn = true
         } else {
             alertTitle = "Error"
             alertMessage = "Invalid email or password"

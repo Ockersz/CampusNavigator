@@ -36,7 +36,6 @@ class SecurityUtil {
                let keyString = loadedKeyData["key"],
                let keyData = Data(base64Encoded: keyString) {
                 self.key = SymmetricKey(data: keyData)
-                print("Key successfully loaded")
             } else {
                 print("Failed to decode key from data")
             }

@@ -11,7 +11,6 @@ struct AllEvents: View {
     let imageHelper = ImageHelper()
     
     var body: some View {
-        NavigationView {
             ScrollView {
                 LazyVStack(spacing: 16) {
                     ForEach(eventManager.getAllEvents(), id: \.id) { event in
@@ -25,7 +24,7 @@ struct AllEvents: View {
                 .padding(.top)
             }
             .navigationTitle("Campus Events")
-        }
+            .navigationBarTitleDisplayMode(.large)
     }
 }
 

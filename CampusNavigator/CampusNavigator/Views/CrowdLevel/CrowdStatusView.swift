@@ -26,7 +26,7 @@ struct CrowdStatusView: View {
                         .fontWeight(.bold)
                         .minimumScaleFactor(0.8)
                         .multilineTextAlignment(.center)
-                        .foregroundColor(Color("Secondary"))
+                        .foregroundColor(Color("Secondarys"))
                 } else if mostFrequentVote == 2 {
                     Image("neutralVote")
                         .resizable()

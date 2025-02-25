@@ -12,7 +12,6 @@ struct CrowdLevels: View {
     @StateObject var crowdLevelManager = CrowdLevelManager()
     
     var body: some View {
-        NavigationView {
             ScrollView {
                 VStack{
                     ForEach(crowdLevelManager.getAllLocations(), id: \.id) { location in
@@ -22,7 +21,7 @@ struct CrowdLevels: View {
                 .padding()
             }
             .navigationTitle("Crowd Levels")
-        }
+            .navigationBarTitleDisplayMode(.large)
     }
 }
 

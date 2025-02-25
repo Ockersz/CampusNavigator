@@ -5,13 +5,13 @@
 //  Created by Siluni 025 on 2025-02-18.
 //
 
-import SwiftUICore
 import SwiftUI
 
 struct RegisterView: View {
     @State private var name: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var confirmPassword: String = ""
     @State private var showingAlert = false
     @State private var alertTitle = ""
     @State private var alertMessage = ""
@@ -21,7 +21,7 @@ struct RegisterView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Image ("Image")
+                Image("Image")
                 Text("Sign Up")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.largeTitle)
@@ -39,7 +39,7 @@ struct RegisterView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.top, 10)
                 
-                SecureField("Confirm password", text: $password)
+                SecureField("Confirm password", text: $confirmPassword)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.top, 10)
                 
@@ -48,15 +48,14 @@ struct RegisterView: View {
                 }
                 .font(.system(size: 18, weight: .semibold))
                 .frame(maxWidth: .infinity, maxHeight: 44)
-                .background(Color.accents)
+                .background(Color("Accents"))
                 .foregroundColor(.black)
                 .cornerRadius(8)
                 .padding(.top, 20)
                 
-                
                 HStack {
                     Text("Already a member?")
-                    Button("Login"){
+                    Button("Login") {
                         presentationMode.wrappedValue.dismiss()
                     }
                     .underline()
@@ -76,18 +75,26 @@ struct RegisterView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
-    func registerUser(){
+    
+    func registerUser() {
         let userManager = UserManager()
+        
+        if password != confirmPassword {
+            alertTitle = "Error"
+            alertMessage = "Passwords do not match"
+            showingAlert = true
+            return
+        }
         
         let (isRegistered, message) = userManager.registerUser(fullName: name, email: email, password: password, userType: "student")
         
-        if(isRegistered){
+        if isRegistered {
             alertTitle = "Success"
             alertMessage = message
             showingAlert = true
-        }else{
+        } else {
             alertTitle = "Error"
-            alertMessage =  message
+            alertMessage = message
             showingAlert = true
         }
     }
