@@ -13,6 +13,10 @@ struct FindHallView: View {
                     
                 }
                 
+                Text("Find on-campus locations and lecture halls")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                
                 VStack(spacing:15){
                     FindHallCard(title: "Navigation", subtitle: "Find in-campus locations easily", icon: "location")
                     FindHallCard(title: "Lectures", subtitle: "Find lecture halls today's schedule", icon: "book")

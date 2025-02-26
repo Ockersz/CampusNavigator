@@ -19,7 +19,7 @@ struct RegisterView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Image("Image")
                 Text("Sign Up")
