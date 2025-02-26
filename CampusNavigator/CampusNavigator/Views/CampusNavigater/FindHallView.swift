@@ -4,6 +4,8 @@ import SwiftUI
 struct FindHallView: View {
     var body: some View {
             
+        NavigationStack{
+            
             VStack(alignment: .leading, spacing: 20){
                 HStack{
                     Text("Navigate Campus")
@@ -18,14 +20,24 @@ struct FindHallView: View {
                     .foregroundColor(.gray)
                 
                 VStack(spacing:15){
-                    FindHallCard(title: "Navigation", subtitle: "Find in-campus locations easily", icon: "location")
-                    FindHallCard(title: "Lectures", subtitle: "Find lecture halls today's schedule", icon: "book")
-                    FindHallCard(title: "Exams", subtitle: "Find exams held today", icon: "doc.text")
+                    
+                    NavigationLink(destination: NavigationView()){
+                        FindHallCard(title: "Navigation", subtitle: "Find in-campus locations easily", icon: "location")
+                    }
+                    
+                    NavigationLink(destination: LectureSchedule()){
+                        FindHallCard(title: "Lectures", subtitle: "Find lecture halls today's schedule", icon: "book")
+                    }
+                    
+                    NavigationLink(destination: ExamSchedule()){
+                        FindHallCard(title: "Exams", subtitle: "Find exams held today", icon: "doc.text")
+                    }
                 }
                 
                 Spacer()
             }
             .padding()
+        }
     }
 }
 

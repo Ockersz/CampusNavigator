@@ -55,24 +55,26 @@ struct NavigationView: View {
                     .cornerRadius(10)
             }
            
-            // QR Code Scan Section
-            VStack(alignment: .leading, spacing: 10) {
-                Text("See a QR code nearby?")
-                    .font(.headline)
-               
-                Text("Tap the button below to scan the QR code and navigate.")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-               
-                Button(action: {
-                    // QR Code Scan logic
-                }) {
-                    Text("Scan QR")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.secondarys)
-                        .cornerRadius(10)
+            NavigationStack{
+                // QR Code Scan Section
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("See a QR code nearby?")
+                        .font(.headline)
+                    
+                    Text("Tap the button below to scan the QR code and navigate.")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                    
+                    Button(action: {
+                    
+                    }) {
+                        Text("Scan QR")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(Color.secondarys)
+                            .cornerRadius(10)
+                    }
                 }
             }
             Spacer()
