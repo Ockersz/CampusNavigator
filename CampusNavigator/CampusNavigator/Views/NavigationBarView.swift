@@ -39,7 +39,7 @@ struct NavigationBarView: View {
 
 struct RewardsView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Text("Rewards View")
                 .navigationTitle("Rewards")
         }

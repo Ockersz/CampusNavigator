@@ -12,7 +12,7 @@ struct AllEventsStaff: View {
     let imageHelper = ImageHelper()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 HStack {
                     Spacer()

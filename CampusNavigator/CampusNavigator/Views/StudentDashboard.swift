@@ -12,7 +12,7 @@ struct StudentDashboardView: View {
     let images = ["Carousel", "Carousel", "Carousel"]
     let buttonData: [(String, String, String, AnyView)] = [
         ("Crowd Level", "CrowdLevel", "See crowd levels in areas", AnyView(CrowdLevels())),
-        ("Canteen", "Canteen", "Order food from canteen", AnyView(LoginView())),
+        ("Canteen", "canteen", "Order food from canteen", AnyView(LoginView())),
         ("Navigate Campus", "Navigate", "Find in-campus locations", AnyView(LoginView())),
         ("Campus Surfer", "Surfer", "Play a game to earn rewards", AnyView(LoginView()))
     ]
@@ -40,7 +40,7 @@ struct StudentDashboardView: View {
     ]
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     // Header
@@ -60,7 +60,7 @@ struct StudentDashboardView: View {
                         Text("You have")
                         Text("029 credits")
                             .foregroundColor(Color.credits)
-                        NavigationLink(destination: LoginView()){ //For now linked to Login
+                        NavigationLink(destination: AnyView(RedeemView())){
                             Text("Redeem Now")
                                 .foregroundColor(Color.secondarys)
                                 .padding(EdgeInsets(top: 0, leading: 50, bottom: 0, trailing: 0))
