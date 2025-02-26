@@ -94,7 +94,7 @@ struct AddEvent: View {
     func addEvent() {
         print("Add Event")
         let newEvent = eventManager.createEvent(
-            name: title,
+            title: title,
             description: description,
             date: dateTime,
             location: location,

@@ -15,6 +15,7 @@ struct LoginView: View {
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var isLoggedIn = false
+    @State private var isAdmin = false
     
     var body: some View {
         NavigationStack {
@@ -60,7 +61,11 @@ struct LoginView: View {
                     EmptyView()
                 }
                 .navigationDestination(isPresented: $isLoggedIn) {
-                    StudentDashboardView()
+                    if(isAdmin){
+                        AllEventsStaff()
+                    }else{
+                        StudentDashboardView()
+                    }
                 }
                 
             }
@@ -78,11 +83,18 @@ struct LoginView: View {
             return
         }
         
+        if(email == "admin" && password == "admin"){
+            isLoggedIn = true
+            isAdmin = true
+            return
+        }
+        
         let userManager = UserManager()
         let (isCorrect, _) = userManager.loginUser(email: email, password: password)
         
         if isCorrect {
             isLoggedIn = true
+            isAdmin = false
         } else {
             alertTitle = "Error"
             alertMessage = "Invalid email or password"

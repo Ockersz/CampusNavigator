@@ -38,6 +38,8 @@ struct AllEventsStaff: View {
                 }
             }
             .navigationTitle("Upcoming Events")
+            .navigationBarTitleDisplayMode(.large)
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -103,7 +105,6 @@ struct EventCardStaff: View {
                     }
                 }
             }
-            
         }
     }
 }

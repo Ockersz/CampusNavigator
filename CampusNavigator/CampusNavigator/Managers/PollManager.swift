@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Polls : Codable, Identifiable {
+struct Poll: Codable, Identifiable {
     var id: Int
     var locationId: Int
     var userId: Int
@@ -14,70 +14,65 @@ struct Polls : Codable, Identifiable {
     var date: String
 }
 
-class PollManager : ObservableObject{
-    @Published var polls: [Polls] = []
-    var dateHelper: DateHelper = DateHelper()
+class PollManager: ObservableObject {
+    @Published private var polls: [Poll] = []
     
     init() {
         loadPolls()
     }
     
     private func getFilePath() -> URL {
-        return URL(fileURLWithPath: "/Users/shaheinockersz/dev/CampusNavigator/CampusNavigator/CampusNavigator/Data/polls.json")
+        let fileManager = FileManager.default
+        let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return directory.appendingPathComponent("polls.json")
     }
     
     private func loadPolls() {
-        guard let filePath = Bundle.main.url(forResource: "polls", withExtension: "json"),
-            let data = try? Data(contentsOf: filePath) else {
-            print("polls.json not found in the bundle")
+        let filePath = getFilePath()
+        
+        if !FileManager.default.fileExists(atPath: filePath.path) {
+            print("polls.json not found, initializing empty polls list")
+            self.polls = []
+            return
+        }
+        
+        guard let data = try? Data(contentsOf: filePath) else {
+            print("Failed to read polls.json")
             return
         }
         
         let decoder = JSONDecoder()
-        if let loadedPolls = try? decoder.decode([Polls].self, from: data) {
+        if let loadedPolls = try? decoder.decode([Poll].self, from: data) {
             DispatchQueue.main.async {
                 self.polls = loadedPolls
             }
         } else {
-            print("Failed to decode locations from JSON")
+            print("Failed to decode polls from JSON")
         }
     }
-
     
-//    private func loadPolls() {
-//        let filePath = getFilePath()
-//        
-//        guard FileManager.default.fileExists(atPath: filePath.path),
-//              let data = try? Data(contentsOf: filePath) else {
-//            return
-//        }
-//        
-//        let decoder = JSONDecoder()
-//        if let loadedPolls = try? decoder.decode([Polls].self, from: data) {
-//            DispatchQueue.main.async {
-//                self.polls = loadedPolls
-//            }
-//        } else {
-//            print("Failed to decode locations from data")
-//        }
-//    }
-    
-    private func savePolls(){
+    private func savePolls() {
         let filePath = getFilePath()
         let encoder = JSONEncoder()
-        if let data = try? encoder.encode(polls) {
-            try? data.write(to: filePath)
-        }
+        encoder.outputFormatting = .prettyPrinted
         
-        loadPolls()
+        do {
+            let data = try encoder.encode(polls)
+            try data.write(to: filePath, options: .atomic)
+            print("Successfully saved polls to file")
+        } catch {
+            print("Failed to save polls: \(error)")
+        }
     }
     
-    func addPoll(locationId: Int, userId: Int, vote: Int, date: String) -> Bool{
+    func getAllPolls() -> [Poll] {
+        return polls
+    }
+    
+    func addPoll(locationId: Int, userId: Int, vote: Int, date: String) -> Bool {
+        let maxId = polls.map({ $0.id }).max() ?? 0
         
-      
-        let maxId = polls.map({$0.id}).max() ?? 0
-        
-        let newPoll : Polls = Polls(
+        let newPoll = Poll(
             id: maxId + 1,
             locationId: locationId,
             userId: userId,
@@ -86,12 +81,12 @@ class PollManager : ObservableObject{
         )
         
         polls.append(newPoll)
-        self.savePolls()
+        savePolls()
         
         return true
     }
     
-    func getLastPollByUser(locationId: Int, userId: Int) -> Polls? {
+    func getLastPollByUser(locationId: Int, userId: Int) -> Poll? {
         return polls.filter { $0.locationId == locationId && $0.userId == userId }
             .sorted { $0.date > $1.date }
             .first
@@ -107,10 +102,6 @@ class PollManager : ObservableObject{
             counts[poll.vote, default: 0] += 1
         }
         
-        if let (mostFrequentVote, _) = voteCounts.max(by: { $0.value < $1.value }) {
-            return mostFrequentVote
-        } else {
-            return 0
-        }
+        return voteCounts.max(by: { $0.value < $1.value })?.key ?? 0
     }
 }

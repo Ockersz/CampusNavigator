@@ -1,0 +1,177 @@
+[
+    {
+        "id": 1,
+        "name": "Canteen",
+        "description": "Where you can have your meals",
+        "icon": "canteenImg",
+        "directions": [
+            {
+                "order": 1,
+                "location": "Entrance",
+                "guide": "Head to the entrance to start"
+            },
+            {
+                "order": 2,
+                "location": "Hallway",
+                "guide": "Head down the hallway"
+            },
+            {
+                "order": 3,
+                "location": "Canteen",
+                "guide": "You have reached the Canteen"
+            },
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Library",
+        "description": "Expand your knowledge & work in peace",
+        "icon": "libraryImg",
+        "directions": [
+            {
+                "order": 1,
+                "location": "Entrance",
+                "guide": "Head to the entrance to start"
+            },
+            {
+                "order": 2,
+                "location": "Hallway",
+                "guide": "Head down the hallway to the elevator"
+            },
+            {
+                "order": 3,
+                "location": "Elevator",
+                "guide": "Go to 3rd Floor"
+            },
+            {
+                "order": 4,
+                "location": "Library",
+                "guide": "You have reached the Library"
+            },
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Programme Office",
+        "description": "For your inquiries about the curriculum",
+        "icon": "programmeOfficeImg",
+        "directions": [
+            {
+                "order": 1,
+                "location": "Entrance",
+                "guide": "Head to the entrance to start"
+            },
+            {
+                "order": 2,
+                "location": "Hallway",
+                "guide": "Head down the hallway to the elevator"
+            },
+            {
+                "order": 3,
+                "location": "Elevator",
+                "guide": "Go to 4th Floor"
+            },
+            {
+                "order": 4,
+                "location": "Programme Office",
+                "guide": "You have reached the Programme Office"
+            },
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Study Area",
+        "description": "Work and collaborate with others",
+        "icon": "completedImg",
+        "directions": [
+            {
+                "order": 1,
+                "location": "Entrance",
+                "guide": "Head to the entrance to start"
+            },
+            {
+                "order": 2,
+                "location": "Hallway",
+                "guide": "Head down the hallway to the elevator"
+            },
+            {
+                "order": 3,
+                "location": "Elevator",
+                "guide": "Go to 2nd Floor"
+            },
+            {
+                "order": 4,
+                "location": "Turn Left",
+                "guide": "Turn Left to the hallway"
+            },
+            {
+                "order": 5,
+                "location": "Study Area",
+                "guide": "You have reached the Study Area"
+            },
+        ]
+
+    },
+    {
+        "id": 5,
+        "name": "Exam Unit",
+        "description": "For any inquiries on exams",
+        "icon": "examUnitImg",
+        "directions": [
+            {
+                "order": 1,
+                "location": "Entrance",
+                "guide": "Head to the entrance to start"
+            },
+            {
+                "order": 2,
+                "location": "Hallway",
+                "guide": "Head down the hallway to the elevator"
+            },
+            {
+                "order": 3,
+                "location": "Elevator",
+                "guide": "Go to 2nd Floor"
+            },
+            {
+                "order": 4,
+                "location": "Turn Right",
+                "guide": "Turn Right to the hallway"
+            },
+            {
+                "order": 5,
+                "location": "Exam Unit",
+                "guide": "You have reached the Exam Unit"
+            },
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Campus Events Office",
+        "description": "Be a part of the community",
+        "icon": "completedImg",
+        "directions": [
+            {
+                "order": 1,
+                "location": "Entrance",
+                "guide": "Head to the entrance to start"
+            },
+            {
+                "order": 2,
+                "location": "Hallway",
+                "guide": "Head down the hallway to the elevator"
+            },
+            {
+                "order": 3,
+                "location": "Elevator",
+                "guide": "Go to 2nd Floor"
+            },
+            {
+                "order": 4,
+                "location": "Campus Events Office",
+                "guide": "You have reached the Campus Events Office"
+            },
+        ]
+        
+    },
+]

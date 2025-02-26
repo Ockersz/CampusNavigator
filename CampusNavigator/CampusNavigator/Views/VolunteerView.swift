@@ -14,10 +14,12 @@ struct VolunteerView: View {
     
     var body: some View {
         VStack {
-            if eventManager.getAllVolunteers(id: event.id).isEmpty {
+            if eventManager.getAllVolunteers(eventId: event.id).isEmpty {
                 Text("No volunteers found.")
             } else {
-                List(eventManager.getAllVolunteers(id: event.id)) { volunteer in
+                List(
+                    eventManager.getAllVolunteers(eventId: event.id)
+                ) { volunteer in
                     VolunteerCard(volunteer: volunteer)
                 }
             }
