@@ -15,7 +15,7 @@ struct Volunteer: Codable, Identifiable {
     var contact: String
 }
 
-struct Event: Codable {
+struct Event: Codable, Identifiable {
     var id: Int
     var title: String
     var location: String
@@ -27,7 +27,6 @@ struct Event: Codable {
 }
 
 class EventManager: ObservableObject {
-    
     @Published private var events: [Event] = []
     private let imageHelper = ImageHelper()
     
@@ -36,7 +35,8 @@ class EventManager: ObservableObject {
     }
     
     private func getFilePath() -> URL {
-        return URL(fileURLWithPath: "/Users/shaheinockersz/dev/CampusNavigator/CampusNavigator/CampusNavigator/Data/event.json")
+        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return directory.appendingPathComponent("events.json")
     }
     
     private func loadEvents() {
@@ -44,6 +44,8 @@ class EventManager: ObservableObject {
         
         guard FileManager.default.fileExists(atPath: filePath.path),
               let data = try? Data(contentsOf: filePath) else {
+            print("events.json not found, initializing empty event list")
+            self.events = []
             return
         }
         
@@ -53,35 +55,44 @@ class EventManager: ObservableObject {
                 self.events = loadedEvents
             }
         } else {
-            print("Failed to decode events from data")
+            print("Failed to decode events from JSON")
         }
     }
     
     private func saveEvents() {
         let filePath = getFilePath()
         let encoder = JSONEncoder()
-        if let data = try? encoder.encode(events) {
-            try? data.write(to: filePath)
+        encoder.outputFormatting = .prettyPrinted
+        
+        do {
+            let data = try encoder.encode(events)
+            try data.write(to: filePath, options: .atomic)
+            print("Successfully saved events to file")
+        } catch {
+            print("Failed to save events: \(error)")
         }
     }
     
-    func createEvent(name: String, description: String, date: Date, location: String, image: UIImage?, allowVolunteers: Bool) -> Event {
-        let maxId = events.max(by: { $0.id < $1.id })?.id ?? 0
-        let dateHelper = DateHelper()
-        let dateString = dateHelper.dateToString(date: date, format: "dd/MM/yyyy HH:mm a")
+    func getAllEvents() -> [Event] {
+        return events
+    }
+    
+    func getEventById(id: Int) -> Event? {
+        return events.first(where: { $0.id == id })
+    }
+    
+    func createEvent(title: String, description: String, date: Date, location: String, image: UIImage?, allowVolunteers: Bool) -> Event {
+        let maxId = events.map({ $0.id }).max() ?? 0
+        let dateString = DateHelper().dateToString(date: date, format: "dd/MM/yyyy HH:mm a")
         
         var imagePath: String? = nil
-        
-        if let eventImage = image {
-            let isSaved = imageHelper.saveImage(image: eventImage, eventId: maxId + 1)
-            if isSaved {
-                imagePath = "\(maxId + 1).jpg"
-            }
+        if let eventImage = image, imageHelper.saveImage(image: eventImage, eventId: maxId + 1) {
+            imagePath = "\(maxId + 1).jpg"
         }
         
         let newEvent = Event(
             id: maxId + 1,
-            title: name,
+            title: title,
             location: location,
             dateTime: dateString,
             description: description,
@@ -90,107 +101,50 @@ class EventManager: ObservableObject {
             volunteers: []
         )
         
-        self.events.append(newEvent)
-        self.saveEvents()
-        
+        events.append(newEvent)
+        saveEvents()
         return newEvent
     }
     
     func editEvent(id: Int, title: String, location: String, date: Date, description: String, allowVolunteers: Bool, image: UIImage?) -> Bool {
-        
-        let dateHelper = DateHelper()
-        let dateString = dateHelper.dateToString(date: date, format: "dd/MM/yyyy HH:mm a")
-     
-        guard let index = self.events.firstIndex(where: { $0.id == id }) else {
+        guard let index = events.firstIndex(where: { $0.id == id }) else {
             print("Event not found")
             return false
         }
         
+        let dateString = DateHelper().dateToString(date: date, format: "dd/MM/yyyy HH:mm a")
         var imagePath: String? = nil
         
-        if let eventImage = image {
-            let isSaved = imageHelper.saveImage(image: eventImage, eventId: id)
-            if isSaved {
-                imagePath = "\(id).jpg"
-            }
+        if let eventImage = image, imageHelper.saveImage(image: eventImage, eventId: id) {
+            imagePath = "\(id).jpg"
         }
         
-        self.events[index].title = title
-        self.events[index].location = location
-        self.events[index].dateTime = dateString
-        self.events[index].imagePath = imagePath
-        self.events[index].description = description
-        self.events[index].allowVolunteers = allowVolunteers
+        events[index].title = title
+        events[index].location = location
+        events[index].dateTime = dateString
+        events[index].description = description
+        events[index].allowVolunteers = allowVolunteers
+        events[index].imagePath = imagePath
         
-        self.saveEvents()
-        
-        return true;
-        
-    }
-    
-    func addVolunteer(id: Int, name: String, batch: String, contact: String) -> Bool {
-        
-        print(id)
-        guard let index = self.events.firstIndex(where: { $0.id == id }) else {
-            print("Event not found")
-            return false
-        }
-        
-        var maxVolunteerId = 0
-        
-        if self.events[index].volunteers.count > 0 {
-            maxVolunteerId = self.events[index].volunteers.max(by: { $0.id < $1.id })!.id
-        }
-        
-        let newVolunteer = Volunteer(
-            id: maxVolunteerId + 1,
-            name: name,
-            batch: batch,
-            contact: contact
-        )
-        
-        self.events[index].volunteers.append(newVolunteer)
-        
-        self.saveEvents()
-        
+        saveEvents()
         return true
     }
     
-    func getAllVolunteers(id: Int) -> [Volunteer]{
-        guard let index = self.events.firstIndex(where: { $0.id == id }) else {
+    func addVolunteer(eventId: Int, name: String, batch: String, contact: String) -> Bool {
+        guard let index = events.firstIndex(where: { $0.id == eventId }) else {
             print("Event not found")
-            return []
+            return false
         }
-        print(index)
         
+        let maxVolunteerId = events[index].volunteers.map({ $0.id }).max() ?? 0
+        let newVolunteer = Volunteer(id: maxVolunteerId + 1, name: name, batch: batch, contact: contact)
         
-        
-        return self.events[index].volunteers
-    }
-
-    
-    func getAllEvents() -> [Event] {
-        return events.map { event in
-            var modifiedEvent = event
-            if event.imagePath != nil {
-                modifiedEvent.imagePath = loadImagePath(eventId: event.id)
-            }
-            return modifiedEvent
-        }
+        events[index].volunteers.append(newVolunteer)
+        saveEvents()
+        return true
     }
     
-    func getEventById(id: Int) -> Event? {
-        guard let event = events.first(where: { $0.id == id }) else { return nil }
-        
-        var modifiedEvent = event
-        if event.imagePath != nil {
-            modifiedEvent.imagePath = loadImagePath(eventId: id)
-        }
-        return modifiedEvent
-    }
-    
-    private func loadImagePath(eventId: Int) -> String? {
-        let image = imageHelper.loadImage(eventId: eventId)
-        return image != nil ? "\(eventId).jpg" : nil
+    func getAllVolunteers(eventId: Int) -> [Volunteer] {
+        return events.first(where: { $0.id == eventId })?.volunteers ?? []
     }
 }

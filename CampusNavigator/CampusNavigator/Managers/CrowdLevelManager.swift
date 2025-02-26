@@ -36,7 +36,6 @@ class CrowdLevelManager : ObservableObject{
             DispatchQueue.main.async {
                 self.locations = loadedLocations
             }
-            print("Loaded \(loadedLocations.count) locations")
         } else {
             print("Failed to decode locations from JSON")
         }

@@ -12,9 +12,24 @@ struct StudentDashboardView: View {
     let images = ["Carousel", "Carousel", "Carousel"]
     let buttonData: [(String, String, String, AnyView)] = [
         ("Crowd Level", "CrowdLevel", "See crowd levels in areas", AnyView(CrowdLevels())),
-        ("Canteen", "canteen", "Order food from canteen", AnyView(LoginView())),
-        ("Navigate Campus", "Navigate", "Find in-campus locations", AnyView(LoginView())),
-        ("Campus Surfer", "Surfer", "Play a game to earn rewards", AnyView(LoginView()))
+        (
+            "Canteen",
+            "Canteen",
+            "Order food from canteen",
+            AnyView(CanteenView())
+        ),
+        (
+            "Navigate Campus",
+            "Navigate",
+            "Find in-campus locations",
+            AnyView(FindHallView())
+        ),
+        (
+            "Campus Surfer",
+            "Surfer",
+            "Play a game to earn rewards",
+            AnyView(CampusSurfer())
+        )
     ]
     let buttonRowData: [(String, String, String, AnyView)] = [
         ("Campus Events", "Events", "View on-campus events",

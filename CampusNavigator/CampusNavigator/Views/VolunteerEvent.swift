@@ -63,7 +63,7 @@ struct VolunteerEvent: View {
     func addVolunteer() {
         
         let isSaved = eventManager.addVolunteer(
-            id: event.id,
+            eventId: event.id,
             name: name,
             batch: batch,
             contact: contact
