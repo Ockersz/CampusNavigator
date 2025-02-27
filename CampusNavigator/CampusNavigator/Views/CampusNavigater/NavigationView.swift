@@ -13,7 +13,8 @@ struct NavigationView: View {
     @State private var selectedLocation: String = ""
    
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        NavigationStack{
+            VStack(alignment: .leading, spacing: 20) {
             
             HStack{
                 
@@ -22,7 +23,6 @@ struct NavigationView: View {
                     .fontWeight(.bold)
             }
             
-                // Map Snapshot
                 MapViewSnapshot()
                     .frame(height: 180)
                     .cornerRadius(10)
@@ -30,7 +30,6 @@ struct NavigationView: View {
             Text("Where do you want to go?")
                 .font(.headline)
            
-            // Location Input Fields
             VStack(spacing: 10) {
                 TextField("Start location", text: $destination)
                     .padding()
@@ -43,10 +42,7 @@ struct NavigationView: View {
                     .cornerRadius(10)
             }
            
-            // Navigate Button
-            Button(action: {
-                // Navigation logic
-            }) {
+            NavigationLink(destination: NavigationGuide()) {
                 Text("Navigate")
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -55,27 +51,23 @@ struct NavigationView: View {
                     .cornerRadius(10)
             }
            
-            NavigationStack{
-                // QR Code Scan Section
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("See a QR code nearby?")
-                        .font(.headline)
-                    
-                    Text("Tap the button below to scan the QR code and navigate.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                    
-                    Button(action: {
-                    
-                    }) {
-                        Text("Scan QR")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.secondarys)
-                            .cornerRadius(10)
-                    }
+            VStack(alignment: .leading, spacing: 10) {
+                Text("See a QR code nearby?")
+                    .font(.headline)
+                
+                Text("Tap the button below to scan the QR code and navigate.")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                
+                NavigationLink(destination: QRScannerView()) {
+                    Text("Scan QR")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.secondarys)
+                        .cornerRadius(10)
                 }
+            }
             }
             Spacer()
         }
@@ -83,11 +75,10 @@ struct NavigationView: View {
     }
 }
 
-// MapViewSnapshot (Static Map)
 struct MapViewSnapshot: View {
     @State private var snapshotImage: UIImage? = nil
    
-    let coordinate = CLLocationCoordinate2D(latitude: 6.9022, longitude: 79.8607) // NIBM Colombo
+    let coordinate = CLLocationCoordinate2D(latitude: 6.9022, longitude: 79.8607)
 
     var body: some View {
         ZStack {

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// Lecture Model
 struct Lecture: Identifiable {
     let id = UUID()
     let title: String
@@ -17,9 +16,8 @@ struct Lecture: Identifiable {
     let lecturer: String
 }
 
-// Lecture Schedule View
 struct LectureSchedule: View {
-    @State private var searchText: String = "" // Search input
+    @State private var searchText: String = ""
     
     let lectures: [Lecture] = [
         Lecture(title: "Programming and Data Structures 2",
@@ -41,7 +39,6 @@ struct LectureSchedule: View {
                 lecturer: "M.S. JAYAWARDENA")
     ]
     
-    // Filtered lectures based on search text
     var filteredLectures: [Lecture] {
         if searchText.isEmpty {
             return lectures
@@ -56,21 +53,22 @@ struct LectureSchedule: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 10) {
-                HeaderView()
-                SearchBar(searchText: $searchText) // 🔍 Search Bar
-                
-                ForEach(filteredLectures) { lecture in
-                    LectureItem(lecture: lecture)
+        NavigationStack{
+            ScrollView {
+                VStack(alignment: .leading, spacing: 10) {
+                    HeaderView()
+                    SearchBar(searchText: $searchText)
+                    
+                    ForEach(filteredLectures) { lecture in
+                        LectureItem(lecture: lecture)
+                    }
                 }
+                .padding(20)
             }
-            .padding(20)
         }
     }
 }
 
-// Header View Component
 struct HeaderView: View {
     var body: some View {
         VStack(alignment: .leading) {
@@ -81,13 +79,12 @@ struct HeaderView: View {
     }
 }
 
-// Search Bar Component
 struct SearchBar: View {
     @Binding var searchText: String
     
     var body: some View {
         HStack {
-            Image(systemName: "magnifyingglass") // Search Icon
+            Image(systemName: "magnifyingglass")
                 .foregroundColor(.gray)
             
             TextField("Search lectures...", text: $searchText)
@@ -95,12 +92,11 @@ struct SearchBar: View {
                 .disableAutocorrection(true)
         }
         .padding(10)
-        .background(RoundedRectangle(cornerRadius: 10).fill(Color(.systemGray6))) // Styled search bar
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color(.systemGray6)))
         .padding(.vertical, 5)
     }
 }
 
-// Lecture Item View Component
 struct LectureItem: View {
     let lecture: Lecture
     
@@ -129,17 +125,16 @@ struct LectureItem: View {
             
             Spacer()
             
+            
             NavigateButton()
+            
         }
     }
 }
 
-// Navigate Button Component
 struct NavigateButton: View {
     var body: some View {
-        Button {
-            print("Navigate clicked!")
-        } label: {
+        NavigationLink(destination: NavigationGuide() ){
             Image(systemName: "location.fill")
                 .imageScale(.large)
                 .padding()
