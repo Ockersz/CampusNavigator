@@ -93,9 +93,7 @@ struct ExamItem: View {
 // Navigate Button Component
 struct ExamNavigateButton: View {
     var body: some View {
-        Button {
-            print("Navigate clicked!")
-        } label: {
+        NavigationLink(destination: NavigationGuide() ){
             Image(systemName: "location.fill")
                 .imageScale(.large)
                 .padding()

@@ -30,93 +30,96 @@ struct StudentDashboardView: View {
     let column2 = [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)]
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                // Header
-                HStack {
-                    Text("Hi, \(username)")
-                        .font(.largeTitle)
-                        .bold()
-                    Spacer()
-                    Image("Student")
-                }
-                
-                Text("Welcome to Campus Navigator")
-                    .font(.system(size: 17, weight: .regular))
-                    .foregroundColor(.gray)
-                
-                HStack {
-                    Text("You have")
-                    Text("029 credits")
-                        .foregroundColor(Color.credits)
-                    
-                    Button(action: {
-                        selectedTab = 3 // Switch to Redeem tab
-                    }) {
-                        Text("Redeem Now")
-                            .foregroundColor(Color.secondarys)
-                            .padding(.leading, 50)
-                            .underline()
+        NavigationStack{
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    HStack {
+                        Text("Hi, \(username)")
+                            .font(.largeTitle)
                             .bold()
+                        Spacer()
+                        NavigationLink(
+                            destination: LoginView(
+                                isAuthenticated: .constant(false)
+                            )
+                        ){
+                            Image("Student")
+                        }
+                    }
+                    
+                    Text("Welcome to Campus Navigator")
+                        .font(.system(size: 17, weight: .regular))
+                        .foregroundColor(.gray)
+                    
+                    HStack {
+                        Text("You have")
+                        Text("029 credits")
+                            .foregroundColor(Color.credits)
+                        
+                        Button(action: {
+                            selectedTab = 3
+                        }) {
+                            Text("Redeem Now")
+                                .foregroundColor(Color.secondarys)
+                                .padding(.leading, 50)
+                                .underline()
+                                .bold()
+                        }
+                    }
+                    .padding()
+                    .background(Color.boxBG)
+                    .frame(width: 370, height: 52)
+                    .cornerRadius(11)
+                    
+                    Text("Upcoming Events")
+                        .font(.system(size: 20, weight: .bold))
+                    
+                    TabView {
+                        ForEach(images, id: \.self) { image in
+                            Image(image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 350, height: 200)
+                                .cornerRadius(10)
+                        }
+                    }
+                    .tabViewStyle(PageTabViewStyle())
+                    .frame(height: 220)
+                    
+                    Text("Explore App")
+                        .font(.system(size: 20, weight: .bold))
+                    
+                    LazyVGrid(columns: columns, spacing: 16) {
+                        ForEach(buttonData, id: \.0) { button in
+                            ButtonView(
+                                title: button.0,
+                                imageName: button.1,
+                                description: button.2,
+                                selectedTab: $selectedTab,
+                                tabIndex: button.3,
+                                destination: button.4
+                            )
+                        }
+                    }
+                    
+                    LazyVGrid(columns: column2, spacing: 16) {
+                        ForEach(buttonRowData, id: \.0) { button in
+                            ButtonView2(
+                                title: button.0,
+                                imageName: button.1,
+                                description: button.2,
+                                destination: button.3
+                            )
+                        }
                     }
                 }
-                .padding()
-                .background(Color.boxBG)
-                .frame(width: 370, height: 52)
-                .cornerRadius(11)
-                
-                Text("Upcoming Events")
-                    .font(.system(size: 20, weight: .bold))
-                
-                // Carousel
-                TabView {
-                    ForEach(images, id: \.self) { image in
-                        Image(image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 350, height: 200)
-                            .cornerRadius(10)
-                    }
-                }
-                .tabViewStyle(PageTabViewStyle())
-                .frame(height: 220)
-                
-                Text("Explore App")
-                    .font(.system(size: 20, weight: .bold))
-                
-                // Grid Layout for Main Features
-                LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(buttonData, id: \.0) { button in
-                        ButtonView(
-                            title: button.0,
-                            imageName: button.1,
-                            description: button.2,
-                            selectedTab: $selectedTab,
-                            tabIndex: button.3,
-                            destination: button.4
-                        )
-                    }
-                }
-                
-                // Grid Layout for Additional Features
-                LazyVGrid(columns: column2, spacing: 16) {
-                    ForEach(buttonRowData, id: \.0) { button in
-                        ButtonView2(
-                            title: button.0,
-                            imageName: button.1,
-                            description: button.2,
-                            destination: button.3
-                        )
-                    }
-                }
+                .padding(20)
             }
-            .padding(20)
+            .navigationBarBackButtonHidden(true)
         }
-        .navigationBarBackButtonHidden(true)
     }
 }
 
-// 🔹 **Updated Button Component**
 struct ButtonView: View {
     let title: String
     let imageName: String
@@ -127,7 +130,6 @@ struct ButtonView: View {
     
     var body: some View {
         if let tabIndex = tabIndex {
-            // If tabIndex exists, change tabs
             Button(action: {
                 selectedTab = tabIndex
             }) {
@@ -145,7 +147,6 @@ struct ButtonView: View {
                 .frame(width: 200, height: 140)
             }
         } else {
-            // If tabIndex is nil, navigate using NavigationLink
             NavigationLink(destination: destination) {
                 VStack {
                     Image(imageName)
@@ -164,7 +165,6 @@ struct ButtonView: View {
     }
 }
 
-// 🔹 **Button2 Component (Unchanged)**
 struct ButtonView2: View {
     let title: String
     let imageName: String

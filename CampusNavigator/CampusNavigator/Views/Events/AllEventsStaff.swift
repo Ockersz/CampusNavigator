@@ -13,6 +13,15 @@ struct AllEventsStaff: View {
     
     var body: some View {
         NavigationStack {
+            VStack(alignment: .leading, spacing: 20) {
+                HStack{
+                    Text("All Events")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    Spacer()
+                }
+                .padding()
+            }
             VStack {
                 HStack {
                     Spacer()
@@ -37,8 +46,6 @@ struct AllEventsStaff: View {
                     .padding(.top)
                 }
             }
-            .navigationTitle("Upcoming Events")
-            .navigationBarTitleDisplayMode(.large)
             .navigationBarBackButtonHidden(true)
         }
     }
