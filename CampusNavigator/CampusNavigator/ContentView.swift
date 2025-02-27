@@ -10,11 +10,63 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
+    @State private var isAuthenticated: Bool = false
+    
     var body: some View {
-        LoginView()
+        if isAuthenticated {
+            MainTabView()
+        } else {
+            LoginView(isAuthenticated: $isAuthenticated)
+        }
     }
 
+}
+
+struct MainTabView: View {
+    @State private var selectedTab: Int = 0
+    @State private var homeViewId = UUID()
+    
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            NavigationStack {
+                StudentDashboardView(selectedTab: $selectedTab)
+                    .id(homeViewId)
+            }
+            .tabItem {
+                Label("Home", systemImage: "house.fill")
+            }
+            .tag(0)
+            .onChange(of: selectedTab) { newValue in
+                if newValue == 0 {
+                    homeViewId = UUID()
+                }
+            }
+            
+            NavigationStack {
+                CrowdLevels()
+            }
+            .tabItem {
+                Label("Crowd", systemImage: "person.3.fill")
+            }
+            .tag(1)
+            
+            NavigationStack {
+                CanteenView()
+            }
+            .tabItem {
+                Label("Canteen", systemImage: "fork.knife")
+            }
+            .tag(2)
+            
+            NavigationStack {
+                RedeemView()
+            }
+            .tabItem {
+                Label("Redeem", systemImage: "gift.fill")
+            }
+            .tag(3)
+        }
+    }
 }
 
 #Preview {

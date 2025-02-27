@@ -16,6 +16,7 @@ struct LoginView: View {
     @State private var alertMessage = ""
     @State private var isLoggedIn = false
     @State private var isAdmin = false
+    @Binding var isAuthenticated: Bool
     
     var body: some View {
         NavigationStack {
@@ -64,7 +65,7 @@ struct LoginView: View {
                     if(isAdmin){
                         AllEventsStaff()
                     }else{
-                        StudentDashboardView()
+                        StudentDashboardView(selectedTab: .constant(0))
                     }
                 }
                 
@@ -86,6 +87,7 @@ struct LoginView: View {
         if(email == "admin" && password == "admin"){
             isLoggedIn = true
             isAdmin = true
+            isAuthenticated = true
             return
         }
         
@@ -95,6 +97,7 @@ struct LoginView: View {
         if isCorrect {
             isLoggedIn = true
             isAdmin = false
+            isAuthenticated = true
         } else {
             alertTitle = "Error"
             alertMessage = "Invalid email or password"
@@ -103,6 +106,3 @@ struct LoginView: View {
     }
 }
 
-#Preview {
-    LoginView()
-}
