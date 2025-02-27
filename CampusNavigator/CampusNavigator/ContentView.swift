@@ -36,8 +36,8 @@ struct MainTabView: View {
                 Label("Home", systemImage: "house.fill")
             }
             .tag(0)
-            .onChange(of: selectedTab) { newValue in
-                if newValue == 0 {
+            .onChange(of: selectedTab) {
+                if selectedTab == 0 {
                     homeViewId = UUID()
                 }
             }
